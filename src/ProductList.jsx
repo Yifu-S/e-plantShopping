@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
 import { addItem } from './CartSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 function ProductList({ onHomeClick }) {
     const dispatch = useDispatch();
 
@@ -266,10 +266,6 @@ function ProductList({ onHomeClick }) {
          }));
       };
 
-    const getQuantityInCart = (name) => {
-        const item = cart.find(i => i.name === name);
-        return item ? item.quantity : 0;
-      };
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -302,7 +298,12 @@ function ProductList({ onHomeClick }) {
                                         <img className='product-image' src={plant.image} alt={plant.name} />
                                         <div className='product-cost'>{plant.cost}</div>
                                         <div className='product-description'>{plant.description}</div>
-                                        <button className='product-button' onClick={() => handleAddToCart(plant)}>Add to cart</button>
+                                        <button
+                                            className="product-button"
+                                            onClick={() => handleAddToCart(plant)}
+                                            disabled={addedToCart[plant.name]}>
+                                            {addedToCart[plant.name] ? "Added" : "Add to Cart"}
+                                        </button>
                                     </div>
                                 ))}
                             </div>
